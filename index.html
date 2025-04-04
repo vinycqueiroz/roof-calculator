@@ -21,10 +21,12 @@
             <button id="addStructureBtn" onclick="addStructure()">Add Another Structure</button>
         </div>
         <h3 id="totalArea">Total Square Footage: 0 SQ FT</h3>
+        <h3 id="totalSquares">Total Squares: 0</h3> <!-- Added the Total Squares display -->
     </div>
 
     <script>
         let totalSquareFootage = 0;
+        let totalSquares = 0; // Variable to store total squares
 
         function calculateRoofArea(button) {
             let structure = button.parentElement;
@@ -45,7 +47,7 @@
             let totalWithWaste = totalArea * (1 + waste);
             
             structure.querySelector('.result').innerText = `Structure Area: ${totalWithWaste.toFixed(2)} SQ FT`;
-            updateTotal();
+            updateTotal(totalWithWaste);
         }
         
         function addStructure() {
@@ -62,15 +64,11 @@
             document.getElementById('structures').insertBefore(newStructure, document.getElementById('addStructureBtn'));
         }
 
-        function updateTotal() {
-            totalSquareFootage = 0;
-            document.querySelectorAll('.result').forEach(result => {
-                let match = result.innerText.match(/([0-9]+\.?[0-9]*)/);
-                if (match) {
-                    totalSquareFootage += parseFloat(match[0]);
-                }
-            });
+        function updateTotal(newArea) {
+            totalSquareFootage += newArea; // Add new area to total square footage
+            totalSquares = totalSquareFootage / 100; // Convert total square footage to total squares
             document.getElementById('totalArea').innerText = `Total Square Footage: ${totalSquareFootage.toFixed(2)} SQ FT`;
+            document.getElementById('totalSquares').innerText = `Total Squares: ${Math.floor(totalSquares)}`; // Display total squares
         }
     </script>
 </body>
