@@ -1,7 +1,9 @@
 /* General Styles */
 body {
-    font-family: Metropolis, sans-serif;
-    background: linear-gradient(to right, #1a1a1a, #4e4e4e); /* Darker to lighter gradient */
+    font-family: Metropolis;
+    background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
     color: white;
     text-align: center;
     margin: 0;
@@ -23,11 +25,15 @@ input {
     margin: 10px 0;
     width: 100%;
     box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
 input:focus {
     outline: none; /* Remove outline on focus */
-    border-color: #1a1a1a; /* Add a focus color to the border */
+    border-color: #66ccff; /* Glow color */
+    box-shadow: 0 0 8px #66ccff;
+    transition: all 0.3s ease;
+    transform: scale(1.02);
 }
 
 /* Structures Layout */
@@ -120,4 +126,47 @@ button:hover {
 #totalSquares {
     top: 55%; /* Adjust this position to be directly under the Total Area */
     margin-top: 15px;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .container {
+        max-width: 95%;
+        padding: 10px;
+    }
+
+    #structures {
+        flex-direction: column;
+        margin-right: 0; /* Remove space reserved for fixed totalArea box */
+    }
+
+    .structure {
+        width: 100%; /* Full width on small screens */
+        min-width: auto;
+    }
+
+    #addStructureBtn {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    #totalArea, #totalSquares {
+        position: static; /* Unfix these for better flow on small screens */
+        margin: 10px auto;
+        width: 90%;
+    }
+
+    button {
+        font-size: 1em;
+    }
+
+    input {
+        font-size: 1em;
+    }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
