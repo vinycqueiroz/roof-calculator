@@ -1,75 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Roof Area Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Roof Area Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <h2>Roof Area Calculator</h2>
-        <div id="structures">
-            <div class="structure">
-                <label>Roof Width (ft): <input type="number" class="width"></label>
-                <label>Roof Length (ft): <input type="number" class="length"></label>
-                <label>Pitch (x/12): <input type="number" class="pitch"></label>
-                <label>Waste Percentage (%): <input type="number" class="waste" value="15"></label>
-                <button onclick="calculateRoofArea(this)">Calculate</button>
-                <h3 class="result"></h3>
-            </div>
-            <button id="addStructureBtn" onclick="addStructure()">Add Another Structure</button>
-        </div>
-        <h3 id="totalArea">Total Square Footage: 0 SQ FT</h3>
-        <h3 id="totalSquares">Total Squares: 0</h3> <!-- Added the Total Squares display -->
+  <div class="container">
+    <h2>Roof Area Calculator</h2>
+    <div id="structures">
+      <div class="structure">
+        <label>Roof Width (ft): <input type="number" class="width" /></label>
+        <label>Roof Length (ft): <input type="number" class="length" /></label>
+        <label>Pitch (x/12): <input type="number" class="pitch" /></label>
+        <label>Waste Percentage (%): <input type="number" class="waste" value="15" /></label>
+        <button onclick="calculateRoofArea(this)">Calculate</button>
+        <h3 class="result"></h3>
+      </div>
+      <button id="addStructureBtn" onclick="addStructure()">Add Another Structure</button>
     </div>
 
-    <script>
-        let totalSquareFootage = 0;
-        let totalSquares = 0; // Variable to store total squares
+    <h3 id="totalArea">Total Square Footage: 0 SQ FT</h3>
+    <h3 id="totalSquares">Total Squares: 0</h3>
 
-        function calculateRoofArea(button) {
-            let structure = button.parentElement;
-            let width = parseFloat(structure.querySelector('.width').value);
-            let length = parseFloat(structure.querySelector('.length').value);
-            let pitch = parseFloat(structure.querySelector('.pitch').value);
-            let waste = parseFloat(structure.querySelector('.waste').value) / 100;
-            
-            if (!width || !length || !pitch) {
-                structure.querySelector('.result').innerText = "Please enter valid values.";
-                return;
-            }
-            
-            let halfSpan = width / 2;
-            let slopeFactor = Math.sqrt((pitch ** 2 + 12 ** 2)) / 12;
-            let rafterLength = halfSpan * slopeFactor;
-            let totalArea = 2 * (rafterLength * length);
-            let totalWithWaste = totalArea * (1 + waste);
-            
-            structure.querySelector('.result').innerText = `Structure Area: ${totalWithWaste.toFixed(2)} SQ FT`;
-            updateTotal(totalWithWaste);
-        }
-        
-        function addStructure() {
-            let newStructure = document.createElement('div');
-            newStructure.classList.add('structure');
-            newStructure.innerHTML = `
-                <label>Roof Width (ft): <input type="number" class="width"></label>
-                <label>Roof Length (ft): <input type="number" class="length"></label>
-                <label>Pitch (x/12): <input type="number" class="pitch"></label>
-                <label>Waste Percentage (%): <input type="number" class="waste" value="15"></label>
-                <button onclick="calculateRoofArea(this)">Calculate</button>
-                <h3 class="result"></h3>
-            `;
-            document.getElementById('structures').insertBefore(newStructure, document.getElementById('addStructureBtn'));
-        }
+    <h2>Material Estimator</h2>
+    <div class="structure">
+      <label>Total Squares: <input type="number" id="mat-squares" /></label>
+      <label>Eaves (ft): <input type="number" id="mat-eaves" /></label>
+      <label>Valleys (ft): <input type="number" id="mat-valleys" /></label>
+      <label>Hips (ft): <input type="number" id="mat-hips" /></label>
+      <label>Ridges (ft): <input type="number" id="mat-ridges" /></label>
+      <label>Rakes (ft): <input type="number" id="mat-rakes" /></label>
+      <label>Flashing (ft): <input type="number" id="mat-flashing" /></label>
+      <button onclick="generateMaterialList()">Generate Material List</button>
+      <h3 class="result" id="materialList"></h3>
+    </div>
+  </div>
 
-        function updateTotal(newArea) {
-            totalSquareFootage += newArea; // Add new area to total square footage
-            totalSquares = totalSquareFootage / 100; // Convert total square footage to total squares
-            document.getElementById('totalArea').innerText = `Total Square Footage: ${totalSquareFootage.toFixed(2)} SQ FT`;
-            document.getElementById('totalSquares').innerText = `Total Squares: ${Math.floor(totalSquares)}`; // Display total squares
-        }
-    </script>
+  <script>
+    let totalSquareFootage = 0;
+    let totalSquares = 0;
+
+    function calculateRoofArea(button) {
+      let structure = button.parentElement;
+      let width = parseFloat(structure.querySelector(".width").value);
+      let length = parseFloat(structure.querySelector(".length").value);
+      let pitch = parseFloat(structure.querySelector(".pitch").value);
+      let waste = parseFloat(structure.querySelector(".waste").value) / 100;
+
+      if (!width || !length || !pitch) {
+        structure.querySelector(".result").innerText = "Please enter valid values.";
+        return;
+      }
+
+      let halfSpan = width / 2;
+      let slopeFactor = Math.sqrt(pitch ** 2 + 12 ** 2) / 12;
+      let rafterLength = halfSpan * slopeFactor;
+      let totalArea = 2 * (rafterLength * length);
+      let totalWithWaste = totalArea * (1 + waste);
+
+      structure.querySelector(".result").innerText = `Structure Area: ${totalWithWaste.toFixed(2)} SQ FT`;
+      updateTotal(totalWithWaste);
+    }
+
+    function addStructure() {
+      let newStructure = document.createElement("div");
+      newStructure.classList.add("structure");
+      newStructure.innerHTML = `
+        <label>Roof Width (ft): <input type="number" class="width" /></label>
+        <label>Roof Length (ft): <input type="number" class="length" /></label>
+        <label>Pitch (x/12): <input type="number" class="pitch" /></label>
+        <label>Waste Percentage (%): <input type="number" class="waste" value="15" /></label>
+        <button onclick="calculateRoofArea(this)">Calculate</button>
+        <h3 class="result"></h3>
+      `;
+      document.getElementById("structures").insertBefore(newStructure, document.getElementById("addStructureBtn"));
+    }
+
+    function updateTotal(newArea) {
+      totalSquareFootage += newArea;
+      totalSquares = totalSquareFootage / 100;
+      document.getElementById("totalArea").innerText = `Total Square Footage: ${totalSquareFootage.toFixed(2)} SQ FT`;
+      document.getElementById("totalSquares").innerText = `Total Squares: ${Math.floor(totalSquares)}`;
+    }
+
+    function generateMaterialList() {
+      const squares = parseFloat(document.getElementById("mat-squares").value) || 0;
+      const eaves = parseFloat(document.getElementById("mat-eaves").value) || 0;
+      const valleys = parseFloat(document.getElementById("mat-valleys").value) || 0;
+      const hips = parseFloat(document.getElementById("mat-hips").value) || 0;
+      const ridges = parseFloat(document.getElementById("mat-ridges").value) || 0;
+      const rakes = parseFloat(document.getElementById("mat-rakes").value) || 0;
+      const flashing = parseFloat(document.getElementById("mat-flashing").value) || 0;
+
+      const bundles = Math.ceil(squares * 3);
+      const underlaymentRolls = Math.ceil(squares / 4);
+      const starterStrip = Math.ceil(eaves / 100);
+      const valleyRoll = Math.ceil(valleys / 33);
+      const hipAndRidgeCaps = Math.ceil((hips + ridges) / 20);
+      const dripEdge = Math.ceil((eaves + rakes) / 10);
+      const stepFlashing = Math.ceil(flashing / 41); // Assuming step flashing uses 41ft sections
+
+      const list = `
+        Material List:<br>
+        Shingle: ${bundles} Bundles<br>
+	Hip & Ridge Caps: ${hipAndRidgeCaps} Bundles<br>
+        Ice&Water: ${underlaymentRolls} Rolls<br>
+	Felt Paper: ${valleyRoll} Rolls<br>
+        Starter Strip: ${starterStrip} Bundles<br>
+        Drip Edge: ${dripEdge} Pieces<br>
+        Step Flashing: ${stepFlashing} Pieces
+      `;
+
+      document.getElementById("materialList").innerHTML = list;
+    }
+  </script>
 </body>
 </html>
