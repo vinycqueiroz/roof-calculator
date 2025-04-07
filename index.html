@@ -34,7 +34,7 @@
       <label>Rakes (ft): <input type="number" id="mat-rakes" /></label>
       <label>Flashing (ft): <input type="number" id="mat-flashing" /></label>
       <button onclick="generateMaterialList()">Generate Material List</button>
-      <h3 class="result" id="materialList"></h3>
+      <div id="materialList" class="result"></div>
     </div>
   </div>
 
@@ -94,26 +94,73 @@
       const rakes = parseFloat(document.getElementById("mat-rakes").value) || 0;
       const flashing = parseFloat(document.getElementById("mat-flashing").value) || 0;
 
-      const bundles = Math.ceil(squares * 3);
-      const underlaymentRolls = Math.ceil(squares / 4);
-      const starterStrip = Math.ceil(eaves / 100);
-      const valleyRoll = Math.ceil(valleys / 33);
-      const hipAndRidgeCaps = Math.ceil((hips + ridges) / 20);
-      const dripEdge = Math.ceil((eaves + rakes) / 10);
-      const stepFlashing = Math.ceil(flashing / 41); // Assuming step flashing uses 41ft sections
+      const shinglePerSquare = parseFloat(document.getElementById("shingleUnit")?.value || 3);
+      const hipRidgeLFPerBundle = parseFloat(document.getElementById("hipRidgeUnit")?.value || 25);
+      const starterLFPerBundle = parseFloat(document.getElementById("starterUnit")?.value || 120);
+      const flashingLFPerBundle = parseFloat(document.getElementById("stepFlashingUnit")?.value || 41);
+      const ridgeVentLFPerRoll = parseFloat(document.getElementById("ridgeVentUnit")?.value || 20);
+      const dripEdgeLFPerPiece = 10;
 
-      const list = `
-        Material List:<br>
-        Shingle: ${bundles} Bundles<br>
-	Hip & Ridge Caps: ${hipAndRidgeCaps} Bundles<br>
-        Ice&Water: ${underlaymentRolls} Rolls<br>
-	Felt Paper: ${valleyRoll} Rolls<br>
-        Starter Strip: ${starterStrip} Bundles<br>
-        Drip Edge: ${dripEdge} Pieces<br>
-        Step Flashing: ${stepFlashing} Pieces
+      const iceWaterRollLength = 66;
+      const totalIceWaterLF = (eaves + valleys) * 2 + rakes + hips + ridges;
+      const iceWaterRolls = Math.ceil(totalIceWaterLF / iceWaterRollLength);
+      const iceWaterSquaresCovered = iceWaterRolls * 2;
+
+      const remainingSquares = Math.max(0, squares - iceWaterSquaresCovered);
+      const feltPaperRolls = Math.ceil(remainingSquares / 10);
+
+      const materialListHTML = `
+        <div>
+          <label>Shingles (<span>#BD/SQ</span>): 
+            <span id="shingleQty">${Math.ceil(squares * shinglePerSquare)}</span>
+            <select id="shingleUnit" onchange="generateMaterialList()">
+              ${[1, 2, 3, 4, 5, 6].map(v => `<option value="${v}" ${v == shinglePerSquare ? 'selected' : ''}>${v} BD/SQ</option>`).join('')}
+            </select>
+          </label><br>
+
+          <label>Hip & Ridge Caps (<span>#LF/BD</span>): 
+            <span id="hipRidgeQty">${Math.ceil((hips + ridges) / hipRidgeLFPerBundle)}</span>
+            <select id="hipRidgeUnit" onchange="generateMaterialList()">
+              ${[18, 25].map(v => `<option value="${v}" ${v == hipRidgeLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
+            </select>
+          </label><br>
+
+          <label>Ice&Water (<span>3'x66' RL)</span>): 
+            <span id="underlaymentQty">${iceWaterRolls}</span> Rolls
+          </label><br>
+
+          <label>Felt Paper (<span>10 SQ/RL</span>): 
+            <span id="feltQty">${feltPaperRolls}</span> Rolls
+          </label><br>
+
+          <label>Starter Strip (<span>#LF/BD</span>): 
+            <span id="starterQty">${Math.ceil(eaves / starterLFPerBundle)}</span>
+            <select id="starterUnit" onchange="generateMaterialList()">
+              ${[120, 102].map(v => `<option value="${v}" ${v == starterLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
+            </select>
+          </label><br>
+
+          <label>Drip Edge (<span>10LF/PC</span>): 
+            <span id="dripQty">${Math.ceil((eaves + rakes) / dripEdgeLFPerPiece)}</span> Pieces
+          </label><br>
+
+          <label>Step Flashing (<span>#LF/BD</span>): 
+            <span id="flashingQty">${Math.ceil(flashing / flashingLFPerBundle)}</span>
+            <select id="stepFlashingUnit" onchange="generateMaterialList()">
+              ${[41, 50].map(v => `<option value="${v}" ${v == flashingLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
+            </select>
+          </label><br>
+
+          <label>Ridge Vents (<span>#LF/RL</span>): 
+            <span id="ridgeVentQty">${Math.ceil(ridges / ridgeVentLFPerRoll)}</span>
+            <select id="ridgeVentUnit" onchange="generateMaterialList()">
+              ${[20, 50, 4].map(v => `<option value="${v}" ${v == ridgeVentLFPerRoll ? 'selected' : ''}>${v} LF/RL</option>`).join('')}
+            </select>
+          </label>
+        </div>
       `;
 
-      document.getElementById("materialList").innerHTML = list;
+      document.getElementById("materialList").innerHTML = materialListHTML;
     }
   </script>
 </body>
