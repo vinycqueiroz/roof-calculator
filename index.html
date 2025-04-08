@@ -11,9 +11,9 @@
     <h2>Roof Area Calculator</h2>
     <div id="structures">
       <div class="structure">
-        <label>Roof Width (ft): <input type="number" class="width" /></label>
-        <label>Roof Length (ft): <input type="number" class="length" /></label>
-        <label>Pitch (x/12): <input type="number" class="pitch" /></label>
+        <label>Roof Width (LF): <input type="number" class="width" /></label>
+        <label>Roof Length (LF): <input type="number" class="length" /></label>
+        <label>Pitch (X/12): <input type="number" class="pitch" /></label>
         <label>Waste Percentage (%): <input type="number" class="waste" value="15" /></label>
         <button onclick="calculateRoofArea(this)">Calculate</button>
         <h3 class="result"></h3>
@@ -21,18 +21,20 @@
       <button id="addStructureBtn" onclick="addStructure()">Add Another Structure</button>
     </div>
 
-    <h3 id="totalArea">Total Square Footage: 0 SQ FT</h3>
-    <h3 id="totalSquares">Total Squares: 0</h3>
+    <div class="totals-box">
+      <h3 id="totalArea">Total Square Footage: 0</h3>
+      <h3 id="totalSquares">Total Squares: 0</h3>
+    </div>
 
-    <h2>Material Estimator</h2>
+    <h2>Material Calculator</h2>
     <div class="structure">
-      <label>Total Squares: <input type="number" id="mat-squares" /></label>
-      <label>Eaves (ft): <input type="number" id="mat-eaves" /></label>
-      <label>Valleys (ft): <input type="number" id="mat-valleys" /></label>
-      <label>Hips (ft): <input type="number" id="mat-hips" /></label>
-      <label>Ridges (ft): <input type="number" id="mat-ridges" /></label>
-      <label>Rakes (ft): <input type="number" id="mat-rakes" /></label>
-      <label>Flashing (ft): <input type="number" id="mat-flashing" /></label>
+      <label>Roof Squares: <input type="number" id="mat-squares" /></label>
+      <label>Eaves (LF): <input type="number" id="mat-eaves" /></label>
+      <label>Valleys (LF): <input type="number" id="mat-valleys" /></label>
+      <label>Hips (LF): <input type="number" id="mat-hips" /></label>
+      <label>Ridges (LF): <input type="number" id="mat-ridges" /></label>
+      <label>Rakes (LF): <input type="number" id="mat-rakes" /></label>
+      <label>Flashing (LF): <input type="number" id="mat-flashing" /></label>
       <button onclick="generateMaterialList()">Generate Material List</button>
       <div id="materialList" class="result"></div>
     </div>
@@ -60,7 +62,7 @@
       let totalArea = 2 * (rafterLength * length);
       let totalWithWaste = totalArea * (1 + waste);
 
-      structure.querySelector(".result").innerText = `Structure Area: ${totalWithWaste.toFixed(2)} SQ FT`;
+      structure.querySelector(".result").innerText = `Structure Area: ${totalWithWaste.toFixed(2)}`;
       updateTotal(totalWithWaste);
     }
 
@@ -68,9 +70,9 @@
       let newStructure = document.createElement("div");
       newStructure.classList.add("structure");
       newStructure.innerHTML = `
-        <label>Roof Width (ft): <input type="number" class="width" /></label>
-        <label>Roof Length (ft): <input type="number" class="length" /></label>
-        <label>Pitch (x/12): <input type="number" class="pitch" /></label>
+        <label>Roof Width (LF): <input type="number" class="width" /></label>
+        <label>Roof Length (LF): <input type="number" class="length" /></label>
+        <label>Pitch (X/12): <input type="number" class="pitch" /></label>
         <label>Waste Percentage (%): <input type="number" class="waste" value="15" /></label>
         <button onclick="calculateRoofArea(this)">Calculate</button>
         <h3 class="result"></h3>
@@ -81,7 +83,7 @@
     function updateTotal(newArea) {
       totalSquareFootage += newArea;
       totalSquares = totalSquareFootage / 100;
-      document.getElementById("totalArea").innerText = `Total Square Footage: ${totalSquareFootage.toFixed(2)} SQ FT`;
+      document.getElementById("totalArea").innerText = `Total Square Footage: ${totalSquareFootage.toFixed(2)}`;
       document.getElementById("totalSquares").innerText = `Total Squares: ${Math.floor(totalSquares)}`;
     }
 
@@ -97,65 +99,67 @@
       const shinglePerSquare = parseFloat(document.getElementById("shingleUnit")?.value || 3);
       const hipRidgeLFPerBundle = parseFloat(document.getElementById("hipRidgeUnit")?.value || 25);
       const starterLFPerBundle = parseFloat(document.getElementById("starterUnit")?.value || 120);
-      const flashingLFPerBundle = parseFloat(document.getElementById("stepFlashingUnit")?.value || 41);
+      const flashingLFPerBundle = parseFloat(document.getElementById("stepFlashingUnit")?.value || 50);
       const ridgeVentLFPerRoll = parseFloat(document.getElementById("ridgeVentUnit")?.value || 20);
       const dripEdgeLFPerPiece = 10;
 
+      // Ice & Water logic
       const iceWaterRollLength = 66;
       const totalIceWaterLF = (eaves + valleys) * 2 + rakes + hips + ridges;
       const iceWaterRolls = Math.ceil(totalIceWaterLF / iceWaterRollLength);
       const iceWaterSquaresCovered = iceWaterRolls * 2;
 
+      // Felt logic
       const remainingSquares = Math.max(0, squares - iceWaterSquaresCovered);
       const feltPaperRolls = Math.ceil(remainingSquares / 10);
 
       const materialListHTML = `
         <div>
-          <label>Shingles (<span>#BD/SQ</span>): 
-            <span id="shingleQty">${Math.ceil(squares * shinglePerSquare)}</span>
+          <label>Shingles:
             <select id="shingleUnit" onchange="generateMaterialList()">
               ${[1, 2, 3, 4, 5, 6].map(v => `<option value="${v}" ${v == shinglePerSquare ? 'selected' : ''}>${v} BD/SQ</option>`).join('')}
             </select>
+            <span id="shingleQty">${Math.ceil(squares * shinglePerSquare)} Bundles</span>
           </label><br>
 
-          <label>Hip & Ridge Caps (<span>#LF/BD</span>): 
-            <span id="hipRidgeQty">${Math.ceil((hips + ridges) / hipRidgeLFPerBundle)}</span>
+          <label>Hip & Ridge Caps: 
             <select id="hipRidgeUnit" onchange="generateMaterialList()">
-              ${[18, 25].map(v => `<option value="${v}" ${v == hipRidgeLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
+              ${[18, 25, 30].map(v => `<option value="${v}" ${v == hipRidgeLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
             </select>
+            <span id="hipRidgeQty">${Math.ceil((hips + ridges) / hipRidgeLFPerBundle)} Bundles</span>
           </label><br>
 
-          <label>Ice&Water (<span>3'x66' RL)</span>): 
+          <label>Ridge Vents: 
+            <select id="ridgeVentUnit" onchange="generateMaterialList()">
+              ${[4, 20, 28, 50].map(v => `<option value="${v}" ${v == ridgeVentLFPerRoll ? 'selected' : ''}>${v} LF/RL</option>`).join('')}
+            </select>
+            <span id="ridgeVentQty">${Math.ceil(ridges / ridgeVentLFPerRoll)} Rolls</span>
+          </label><br>
+
+          <label>Ice&Water (<span>2SQ/RL</span>): 
             <span id="underlaymentQty">${iceWaterRolls}</span> Rolls
           </label><br>
 
-          <label>Felt Paper (<span>10 SQ/RL</span>): 
+          <label>Felt Paper (<span>10SQ/RL</span>): 
             <span id="feltQty">${feltPaperRolls}</span> Rolls
           </label><br>
 
-          <label>Starter Strip (<span>#LF/BD</span>): 
-            <span id="starterQty">${Math.ceil(eaves / starterLFPerBundle)}</span>
+          <label>Starter Strip: 
             <select id="starterUnit" onchange="generateMaterialList()">
-              ${[120, 102].map(v => `<option value="${v}" ${v == starterLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
+              ${[102, 116, 120].map(v => `<option value="${v}" ${v == starterLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
             </select>
+            <span id="starterQty">${Math.ceil(eaves / starterLFPerBundle)} Bundles</span>
           </label><br>
 
           <label>Drip Edge (<span>10LF/PC</span>): 
             <span id="dripQty">${Math.ceil((eaves + rakes) / dripEdgeLFPerPiece)}</span> Pieces
           </label><br>
 
-          <label>Step Flashing (<span>#LF/BD</span>): 
-            <span id="flashingQty">${Math.ceil(flashing / flashingLFPerBundle)}</span>
+          <label>Step Flashing: 
             <select id="stepFlashingUnit" onchange="generateMaterialList()">
-              ${[41, 50].map(v => `<option value="${v}" ${v == flashingLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
+              ${[41, 48, 50].map(v => `<option value="${v}" ${v == flashingLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
             </select>
-          </label><br>
-
-          <label>Ridge Vents (<span>#LF/RL</span>): 
-            <span id="ridgeVentQty">${Math.ceil(ridges / ridgeVentLFPerRoll)}</span>
-            <select id="ridgeVentUnit" onchange="generateMaterialList()">
-              ${[20, 50, 4].map(v => `<option value="${v}" ${v == ridgeVentLFPerRoll ? 'selected' : ''}>${v} LF/RL</option>`).join('')}
-            </select>
+            <span id="flashingQty">${Math.ceil(flashing / flashingLFPerBundle)} Bundles</span>
           </label>
         </div>
       `;
