@@ -8,7 +8,7 @@ body {
     text-align: center;
     margin: 0;
     padding: 15px;
-    opacity: 0; /* Start with 0 opacity */
+    opacity: 0;
 }
 
 /* Main Container */
@@ -16,15 +16,15 @@ body {
     max-width: 70%;
     margin: auto;
     padding: 15px;
-    opacity: 0; /* Ensure container starts hidden too */
-    animation: fadeIn 0.40s ease forwards 0.40s; /* Delay so the body can fade first */
+    opacity: 0;
+    animation: fadeIn 0.40s ease forwards 0.40s;
 }
 
 /* Input Fields */
 input {
-    background-color: transparent; /* Transparent background */
-    color: white;  /* White text color */
-    border: 2px solid white;  /* White border */
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
     padding: 10px;
     margin: 10px 0;
     width: 100%;
@@ -33,8 +33,8 @@ input {
 }
 
 input:focus {
-    outline: none; /* Remove outline on focus */
-    border-color: #66ccff; /* Glow color */
+    outline: none;
+    border-color: #66ccff;
     box-shadow: 0 0 8px #66ccff;
     transition: all 0.3s ease;
     transform: scale(1.02);
@@ -50,30 +50,53 @@ input:focus {
 
 /* Structure Box */
 .structure {
-    border: 2px solid white;  /* White Borders */
+    border: 2px solid white;
     padding: 15px;
-    width: calc(33.33% - 20px); /* Adjusts for 3 boxes per row */
+    width: calc(33.33% - 20px);
     min-width: 250px;
     box-sizing: border-box;
-    background-color: transparent; /* Transparent background */
+    background-color: transparent;
     border-radius: 8px;
     box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
 }
 
+/* Totals Box */
+.totals-box {
+    border: 2px solid white;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 8px;
+    background-color: transparent;
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* Total Area and Total Squares Text Inside Box */
+#totalArea, #totalSquares {
+    margin: 0.25em 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    font-size: inherit;
+}
+
 /* Buttons */
 button {
-    background-color: transparent; /* Transparent background */
-    color: white;  /* White text color */
-    border: 2px solid white;  /* White border */
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
     cursor: pointer;
     border-radius: 5px;
     padding: 10px;
-    transition: transform 0.2s ease; /* Smooth transition for scaling */
+    transition: transform 0.2s ease;
 }
 
 button:hover {
-    background-color: rgba(255, 255, 255, 0.1);  /* Slight background on hover */
-    transform: scale(1.1); /* Slightly enlarge the button text */
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
 }
 
 /* Add Structure Button */
@@ -90,31 +113,9 @@ button:hover {
     font-size: 0.9em;
 }
 
-/* Total Area and Total Squares Display */
-#totalArea, #totalSquares {
-    position: static; /* Removed fixed positioning */
-    right: 20px;
-    background-color: transparent; /* Transparent background */
-    padding: 20px;
-    margin-top: 15px; /* Added margin-top for spacing */
-    border-radius: 8px;
-    border: 2px solid white;
-    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
-    font-size: 1.2em;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: center;
-    min-width: 200px;
-    z-index: 10;
-}
-
-#totalSquares {
-    margin-top: 10px;
-}
-
 /* Material List Section */
 #materialList {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 .material-result {
@@ -132,11 +133,11 @@ button:hover {
 
     #structures {
         flex-direction: column;
-        margin-right: 0; /* Remove space reserved for fixed totalArea box */
+        margin-right: 0;
     }
 
     .structure {
-        width: 100%; /* Full width on small screens */
+        width: 100%;
         min-width: auto;
     }
 
@@ -145,29 +146,28 @@ button:hover {
         margin-top: 10px;
     }
 
+    .totals-box {
+        width: 100%;
+        margin: 10px auto;
+        box-sizing: border-box;
+    }
+
     #totalArea, 
     #totalSquares {
-        position: relative; /* Use relative to avoid layout issues */
-        display: block;     /* Force block layout so they stack */
-        margin: 10px auto;
-        width: 100%;
-        box-sizing: border-box;
-        right: 0px;
+        font-size: 1em;
     }
 
     #totalSquares {
         margin-top: 0;
-        margin-bottom: 10px;
     }
 }
 
-    button {
-        font-size: 1em;
-    }
+button {
+    font-size: 1em;
+}
 
-    input {
-        font-size: 1em;
-    }
+input {
+    font-size: 1em;
 }
 
 @keyframes gradientShift {
