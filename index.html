@@ -101,15 +101,15 @@
       const starterLFPerBundle = parseFloat(document.getElementById("starterUnit")?.value || 120);
       const flashingLFPerBundle = parseFloat(document.getElementById("stepFlashingUnit")?.value || 50);
       const ridgeVentLFPerRoll = parseFloat(document.getElementById("ridgeVentUnit")?.value || 20);
+      const ventedSoffitLFPerPiece = parseFloat(document.getElementById("ventedSoffitUnit")?.value || 12);
+      const solidSoffitLFPerPiece = parseFloat(document.getElementById("solidSoffitUnit")?.value || 12);
       const dripEdgeLFPerPiece = 10;
 
-      // Ice & Water logic
       const iceWaterRollLength = 66;
       const totalIceWaterLF = (eaves + valleys) * 2 + rakes + hips + ridges;
       const iceWaterRolls = Math.ceil(totalIceWaterLF / iceWaterRollLength);
       const iceWaterSquaresCovered = iceWaterRolls * 2;
 
-      // Felt logic
       const remainingSquares = Math.max(0, squares - iceWaterSquaresCovered);
       const feltPaperRolls = Math.ceil(remainingSquares / 10);
 
@@ -160,6 +160,20 @@
               ${[41, 48, 50].map(v => `<option value="${v}" ${v == flashingLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
             </select>
             <span id="flashingQty">${Math.ceil(flashing / flashingLFPerBundle)} Bundles</span>
+          </label><br>
+
+          <label>Vented Soffits: 
+            <select id="ventedSoffitUnit" onchange="generateMaterialList()">
+              ${[12, 10].map(v => `<option value="${v}" ${v == ventedSoffitLFPerPiece ? 'selected' : ''}>${v} LF/PC</option>`).join('')}
+            </select>
+            <span id="ventedSoffitQty">${Math.ceil(eaves / ventedSoffitLFPerPiece)}</span> Pieces
+          </label><br>
+
+          <label>Solid Soffits: 
+            <select id="solidSoffitUnit" onchange="generateMaterialList()">
+              ${[12, 10].map(v => `<option value="${v}" ${v == solidSoffitLFPerPiece ? 'selected' : ''}>${v} LF/PC</option>`).join('')}
+            </select>
+            <span id="solidSoffitQty">${Math.ceil(rakes / solidSoffitLFPerPiece)}</span> Pieces
           </label>
         </div>
       `;
