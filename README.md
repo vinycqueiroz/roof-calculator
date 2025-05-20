@@ -23,10 +23,6 @@ Total Roof Area = 2 * (Rafter Length * Length)
 Total with Waste = Total Roof Area * (1 + Waste Percentage)
 ```
 
-## Hosting Instructions
-To use this web app, you can host it on:
-- **GitHub Pages** (Upload the HTML file and enable GitHub Pages in settings)
-
 ## Adding to iPhone Home Screen
 1. Open the hosted link in **Safari**.
 2. Tap the **Share** button.
@@ -34,9 +30,9 @@ To use this web app, you can host it on:
 4. Name it and tap **Add**.
 
 ## Future Improvements
-- Allow users to choose different roof types (hip, shed, etc.).
-- Add a material estimator for shingles, underlayment, etc.
 - Save past calculations for reference.
+- Option to download and print the list.
+- Option to get more materials out of the measurements.
 
 ---
 Built for quick and efficient roofing calculations! 🚀
