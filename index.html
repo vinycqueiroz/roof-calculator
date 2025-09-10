@@ -76,7 +76,7 @@
       iceWaterRollLength: 66,
       iceWaterSquaresPerRoll: 2,
       feltSquaresPerRoll: 10,
-      plywoodSeamTapeLFPerRoll: 77,  // default roll length
+      plywoodSeamTapeLFPerRoll: 67,  // default roll length
     };
 
     function loadUnits() {
@@ -183,7 +183,7 @@
       const solidSoffitQty = Math.ceil(rakes / units.solidSoffitLFPerPiece);
       const friezeFasciaQty = Math.ceil(combinedEavesRakes / units.friezeFasciaLFPerPiece);
 
-      const plywoodTapeOptions = [18, 36, 50, 55, 60, 75, 77, 100, 150, 180];
+      const plywoodTapeOptions = [18, 36, 50, 55, 60, 67, 75, 77, 100, 150, 180];
 
       const materialListHTML = `
         <div>
@@ -216,16 +216,9 @@
             <span>${feltPaperRolls} Rolls</span>
           </label><br>
 
-          <label>Plywood Seam Tape:
-            <select id="plywoodSeamTapeUnit" onchange="onUnitChange('plywoodSeamTapeLFPerRoll', this.value)">
-              ${plywoodTapeOptions.map(v => `<option value="${v}" ${v == units.plywoodSeamTapeLFPerRoll ? 'selected' : ''}>${v} LF/Roll</option>`).join('')}
-            </select>
-            <span>${plywoodSeamTapeRolls} Rolls</span>
-          </label><br>
-
           <label>Starter Strip:
             <select id="starterUnit" onchange="onUnitChange('starterLFPerBundle', this.value)">
-              ${[102,116,120].map(v => `<option value="${v}" ${v == units.starterLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
+              ${[50,102,116,120].map(v => `<option value="${v}" ${v == units.starterLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
             </select>
             <span>${starterQty} Bundles</span>
           </label><br>
@@ -239,6 +232,13 @@
               ${[41,48,50].map(v => `<option value="${v}" ${v == units.stepFlashingLFPerBundle ? 'selected' : ''}>${v} LF/BD</option>`).join('')}
             </select>
             <span>${flashingQty} Bundles</span>
+          </label><br>
+
+	  <label>Plywood Seam Tape:
+            <select id="plywoodSeamTapeUnit" onchange="onUnitChange('plywoodSeamTapeLFPerRoll', this.value)">
+              ${plywoodTapeOptions.map(v => `<option value="${v}" ${v == units.plywoodSeamTapeLFPerRoll ? 'selected' : ''}>${v} LF/Roll</option>`).join('')}
+            </select>
+            <span>${plywoodSeamTapeRolls} Rolls</span>
           </label><br>
 
           <label>Vented Soffits:
