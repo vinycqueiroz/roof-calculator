@@ -3,26 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Roof Area Calculator</title>
+  <title>Roof Area & Material Calculator</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="container">
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">Roof Area & Material Calculator</div>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="#calculator">Calculator</a></li>
+        <li><a href="about.html">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Intro Section -->
+  <section class="intro">
+    <div class="intro-content">
+      <h1>Roof Area & Material Estimator</h1>
+      <p>
+        Welcome to the Roof Area & Material Estimator — a fast, accurate, and
+        easy-to-use tool designed for contractors, roofers, architects and DIY homeowners.
+        With slope correction, waste percentage, roof square footage calculation 
+	and material list generator with multiple options for lengths of rolls and sizes of bundles,
+        you can plan your roofing project with confidence and absolute precision.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <div class="container" id="calculator">
     <h2>Roof Area Calculator</h2>
     <div id="structures">
       <div class="structure">
-        <label>Roof Width (LF): 
-	  <input type="number" inputmode="numeric" pattern="[0-9]*" class="width" />
-	</label>
-        <label>Roof Length (LF): 
-	  <input type="number" inputmode="numeric" pattern="[0-9]*" class="length" />
-	</label>
-        <label>Pitch (X/12): 
-	  <input type="number" inputmode="numeric" pattern="[0-9]*" class="pitch" value="6" min="0" />
-	</label>
-        <label>Waste Percentage (%): 
-	  <input type="number" inputmode="numeric" pattern="[0-9]*" class="waste" value="15" />
-	</label>
+        <label>Roof Width (LF):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" class="width" />
+        </label>
+        <label>Roof Length (LF):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" class="length" />
+        </label>
+        <label>Pitch (X/12):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" class="pitch" value="6" min="0" />
+        </label>
+        <label>Waste Percentage (%):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" class="waste" value="15" />
+        </label>
         <button onclick="calculateRoofArea(this)">Calculate</button>
         <h3 class="result"></h3>
       </div>
@@ -36,25 +63,25 @@
 
     <h2>Material Calculator</h2>
     <div class="structure">
-      <label>Roof Squares: 
+      <label>Roof Squares:
         <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-squares" />
       </label>
-      <label>Eaves (LF): 
+      <label>Eaves (LF):
         <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-eaves" />
       </label>
-      <label>Valleys (LF): 
+      <label>Valleys (LF):
         <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-valleys" />
       </label>
-      <label>Hips (LF): 
+      <label>Hips (LF):
         <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-hips" />
       </label>
-      <label>Ridges (LF): 
+      <label>Ridges (LF):
         <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-ridges" />
       </label>
-      <label>Rakes (LF): 
+      <label>Rakes (LF):
         <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-rakes" />
       </label>
-      <label>Flashing (LF): 
+      <label>Flashing (LF):
         <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-flashing" />
       </label>
       <button onclick="generateMaterialList()">Generate Material List</button>
