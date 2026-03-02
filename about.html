@@ -10,12 +10,18 @@
   <!-- Navigation -->
   <header>
     <nav class="navbar">
-      <div class="logo">Roof Area & Material Calculator</div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="index.html#calculator">Calculator</a></li>
-        <li><a href="about.html" class="active">About Us</a></li>
-      </ul>
+      <a href="index.html" class="logo">Roof Area & Material Calculator</a>
+      <div class="menu-toggle" id="mobile-menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#calculator">Roof Area Calculator</a></li>
+    <li><a href="index.html#material-section">Material Calculator</a></li>
+    <li><a href="about.html" class="active">About Us</a></li>
+</ul>
     </nav>
   </header>
 
@@ -38,5 +44,29 @@
       </p>
     </div>
   </section>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const menu = document.getElementById("mobile-menu");
+    const navLinks = document.querySelector(".nav-links");
+    const links = document.querySelectorAll(".nav-links a");
+
+    if (menu && navLinks) {
+
+        menu.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+            menu.classList.toggle("active");
+        });
+
+        links.forEach(link => {
+            link.addEventListener("click", function () {
+                navLinks.classList.remove("active");
+                menu.classList.remove("active");
+            });
+        });
+    }
+
+});
+</script>
 </body>
 </html>
