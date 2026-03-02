@@ -208,6 +208,7 @@ input {
     z-index: 1000;
     backdrop-filter: blur(6px);
     border-bottom: 1px solid rgba(255,255,255,0.2);
+    position: relative;
 }
 
 .logo {
@@ -242,6 +243,10 @@ input {
     text-shadow: 0 0 10px rgba(102,204,255,0.7),
                  0 0 20px rgba(102,204,255,0.5),
                  0 0 30px rgba(102,204,255,0.3);
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 /* ---------------- INTRO / HERO ---------------- */
@@ -311,4 +316,88 @@ input {
     line-height: 1.5;
     max-width: 800px;
     margin: 0 auto;
+}
+/* ---------------- MOBILE MENU ICON ---------------- */
+.menu-toggle {
+    display: none;
+    width: 30px;
+    height: 22px;
+    position: relative;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: white;
+    border-radius: 3px;
+    left: 0;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle span:nth-child(1) {
+    top: 0;
+}
+
+.menu-toggle span:nth-child(2) {
+    top: 9px;
+}
+
+.menu-toggle span:nth-child(3) {
+    bottom: 0;
+}
+
+/* Animate to X */
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 9px;
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg);
+    bottom: 9px;
+}
+/* ---------------- MOBILE NAVIGATION FIX ---------------- */
+
+/* Base (desktop) */
+.menu-toggle {
+    display: none;
+}
+
+/* Mobile behavior */
+@media (max-width: 768px) {
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+    }
+
+    .nav-links.active {
+        max-height: 300px;
+        padding: 1rem 0;
+    }
+
+    .nav-links a {
+        font-size: 1.2rem;
+    }
+
 }
