@@ -7,15 +7,22 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+<body id="top">
   <!-- Navigation -->
   <header>
     <nav class="navbar">
-      <div class="logo">Roof Area & Material Calculator</div>
-      <ul class="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="#calculator">Calculator</a></li>
-        <li><a href="about.html">About Us</a></li>
-      </ul>
+      <a href="index.html" class="logo">Roof Area & Material Calculator</a>
+      <div class="menu-toggle" id="mobile-menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<ul class="nav-links">
+    <li><a href="#top">Home</a></li>
+    <li><a href="#calculator">Roof Area Calculator</a></li>
+    <li><a href="#material-section">Material Calculator</a></li>
+    <li><a href="about.html">About Us</a></li>
+</ul>
     </nav>
   </header>
 
@@ -61,7 +68,7 @@
       <h3 id="totalSquares">Total Squares: 0</h3>
     </div>
 
-    <h2>Material Calculator</h2>
+    <h2 id="material-section">Material Calculator</h2>
     <div class="structure">
       <label>Roof Squares:
         <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-squares" />
@@ -301,6 +308,30 @@
         generateMaterialList();
       }
     }
+  </script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const menu = document.getElementById("mobile-menu");
+    const navLinks = document.querySelector(".nav-links");
+    const links = document.querySelectorAll(".nav-links a");
+
+    if (menu && navLinks) {
+
+        menu.addEventListener("click", function () {
+            navLinks.classList.toggle("active");
+            menu.classList.toggle("active");
+        });
+
+        links.forEach(link => {
+            link.addEventListener("click", function () {
+                navLinks.classList.remove("active");
+                menu.classList.remove("active");
+            });
+        });
+    }
+
+});
   </script>
 </body>
 </html>
