@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Roof Area & Material Calculator</title>
+  <title>Roofing 101</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -11,7 +11,7 @@
   <!-- Navigation -->
   <header>
     <nav class="navbar">
-      <a href="index.html" class="logo">Roof Area & Material Calculator</a>
+      <a href="index.html" class="logo">Roofing 101</a>
       <div class="menu-toggle" id="mobile-menu">
   <span></span>
   <span></span>
@@ -19,28 +19,46 @@
 </div>
 <ul class="nav-links">
     <li><a href="#top">Home</a></li>
-    <li><a href="#calculator">Roof Area Calculator</a></li>
     <li><a href="#material-section">Material Calculator</a></li>
+    <li><a href="#calculator">Roof Area Calculator</a></li>
     <li><a href="about.html">About Us</a></li>
 </ul>
     </nav>
   </header>
 
-  <!-- Intro Section -->
-  <section class="intro">
-    <div class="intro-content">
-      <h1>Roof Area & Material Estimator</h1>
-      <p>
-        Welcome to the Roof Area & Material Estimator — a fast, accurate, and
-        easy-to-use tool designed for contractors, roofers, architects and DIY homeowners.
-        With slope correction, waste percentage, roof square footage calculation 
-	and material list generator with multiple options for lengths of rolls and sizes of bundles,
-        you can plan your roofing project with confidence and absolute precision.
-      </p>
-    </div>
-  </section>
-
   <!-- Main Container -->
+  <div class="container" id="material-section">
+    <h2>Material Calculator</h2>
+    <div class="material-layout">
+      <div class="structure" id="mat-inputs">
+        <label>Roof Squares:
+          <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-squares" oninput="generateMaterialList()" />
+        </label>
+        <label>Eaves (LF):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-eaves" oninput="generateMaterialList()" />
+        </label>
+        <label>Valleys (LF):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-valleys" oninput="generateMaterialList()" />
+        </label>
+        <label>Hips (LF):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-hips" oninput="generateMaterialList()" />
+        </label>
+        <label>Ridges (LF):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-ridges" oninput="generateMaterialList()" />
+        </label>
+        <label>Rakes (LF):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-rakes" oninput="generateMaterialList()" />
+        </label>
+        <label>Flashing (LF):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-flashing" oninput="generateMaterialList()" />
+        </label>
+      </div>
+      <div class="structure" id="mat-results">
+        <div id="materialList" class="result"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="container" id="calculator">
     <h2>Roof Area Calculator</h2>
     <div id="structures">
@@ -66,33 +84,6 @@
     <div class="totals-box">
       <h3 id="totalArea">Total Square Footage: 0</h3>
       <h3 id="totalSquares">Total Squares: 0</h3>
-    </div>
-
-    <h2 id="material-section">Material Calculator</h2>
-    <div class="structure">
-      <label>Roof Squares:
-        <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-squares" />
-      </label>
-      <label>Eaves (LF):
-        <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-eaves" />
-      </label>
-      <label>Valleys (LF):
-        <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-valleys" />
-      </label>
-      <label>Hips (LF):
-        <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-hips" />
-      </label>
-      <label>Ridges (LF):
-        <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-ridges" />
-      </label>
-      <label>Rakes (LF):
-        <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-rakes" />
-      </label>
-      <label>Flashing (LF):
-        <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-flashing" />
-      </label>
-      <button onclick="generateMaterialList()">Generate Material List</button>
-      <div id="materialList" class="result"></div>
     </div>
   </div>
 
@@ -311,6 +302,7 @@
   </script>
   <script>
 document.addEventListener("DOMContentLoaded", function () {
+    generateMaterialList();
 
     const menu = document.getElementById("mobile-menu");
     const navLinks = document.querySelector(".nav-links");
@@ -333,5 +325,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
   </script>
+  <section class="description-footer">
+    <div class="description-footer-content">
+      <p>
+        Welcome to Roofing 101 — a fast, accurate, and
+        easy-to-use tool designed for contractors, roofers, architects and DIY homeowners.
+        With slope correction, waste percentage, roof square footage calculation
+        and material list generator with multiple options for lengths of rolls and sizes of bundles,
+        you can plan your roofing project with confidence and absolute precision.
+      </p>
+    </div>
+  </section>
 </body>
 </html>
