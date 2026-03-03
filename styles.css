@@ -8,6 +8,7 @@ body {
     text-align: center;
     margin: 0;
     padding: 15px;
+    padding-top: 85px; /* offset for fixed navbar height */
     opacity: 0;
 }
 
@@ -93,7 +94,7 @@ button {
     border-radius: 5px;
     padding: 10px;
     transition: transform 0.2s ease;
-    font-family: inherit;   /* force buttons to match body font */
+    font-family: inherit;
 }
 
 button:hover {
@@ -128,6 +129,10 @@ button:hover {
 
 /* Mobile Styles */
 @media (max-width: 768px) {
+    body {
+        padding-top: 75px;
+    }
+
     .container {
         max-width: 95%;
         padding: 10px;
@@ -188,9 +193,9 @@ input {
     }
 }
 
-#calculator > h2 {
-    font-size: 2.2rem;      /* bigger */
-    font-weight: 800;       /* bold */
+#calculator > h2, #material-section > h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
     color: white;
     margin-top: 1px;
     margin-bottom: 2rem;
@@ -201,21 +206,22 @@ input {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(0, 0, 0, 0.6); /* semi-transparent to blend with gradient */
+    background: #0f2027;
     padding: 1rem 2rem;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
-    backdrop-filter: blur(6px);
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .logo {
     font-size: 1.6rem;
-    font-weight: 800; /* bolder */
+    font-weight: 800;
     color: #66ccff;
     text-align: left;
+    text-decoration: none;
     text-shadow: 0 0 10px rgba(102,204,255,0.7),
                  0 0 20px rgba(102,204,255,0.5),
                  0 0 30px rgba(102,204,255,0.3);
@@ -232,8 +238,8 @@ input {
 .nav-links a {
     text-decoration: none;
     color: white;
-    font-weight: 700; /* bold links */
-    font-size: 1.3rem; /* bigger font */
+    font-weight: 700;
+    font-size: 1.3rem;
     transition: color 0.3s ease;
 }
 
@@ -247,6 +253,7 @@ input {
 
 html {
     scroll-behavior: smooth;
+    overflow-y: scroll;
 }
 
 /* ---------------- INTRO / HERO ---------------- */
@@ -317,6 +324,7 @@ html {
     max-width: 800px;
     margin: 0 auto;
 }
+
 /* ---------------- MOBILE MENU ICON ---------------- */
 .menu-toggle {
     display: none;
@@ -336,55 +344,36 @@ html {
     transition: all 0.3s ease;
 }
 
-.menu-toggle span:nth-child(1) {
-    top: 0;
-}
+.menu-toggle span:nth-child(1) { top: 0; }
+.menu-toggle span:nth-child(2) { top: 9px; }
+.menu-toggle span:nth-child(3) { bottom: 0; }
 
-.menu-toggle span:nth-child(2) {
-    top: 9px;
-}
-
-.menu-toggle span:nth-child(3) {
-    bottom: 0;
-}
-
-/* Animate to X */
 .menu-toggle.active span:nth-child(1) {
     transform: rotate(45deg);
     top: 9px;
 }
-
-.menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
+.menu-toggle.active span:nth-child(2) { opacity: 0; }
 .menu-toggle.active span:nth-child(3) {
     transform: rotate(-45deg);
     bottom: 9px;
 }
-/* ---------------- MOBILE NAVIGATION FIX ---------------- */
 
-/* Base (desktop) */
-.menu-toggle {
-    display: none;
-}
-
-/* Mobile behavior */
+/* ---------------- MOBILE NAVIGATION ---------------- */
 @media (max-width: 768px) {
-
     .menu-toggle {
         display: block;
     }
 
     .nav-links {
-        position: absolute;
-        top: 70px;
+        position: fixed;
+        top: 62px;
         left: 0;
         width: 100%;
-        background: rgba(0, 0, 0, 0.95);
+        background: #0f2027;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
+        gap: 0.65rem;
         padding: 0;
         max-height: 0;
         overflow: hidden;
@@ -392,12 +381,74 @@ html {
     }
 
     .nav-links.active {
-        max-height: 300px;
-        padding: 1rem 0;
+        max-height: 400px;
     }
 
     .nav-links a {
         font-size: 1.2rem;
+        padding: 0.5rem 0;
     }
 
+    .nav-links li:first-child {
+        margin-top: .5rem;
+    }
+
+    .nav-links li:last-child {
+        margin-bottom: .5rem;
+    }
+}
+
+/* ---------------- DESCRIPTION FOOTER ---------------- */
+.description-footer {
+    padding: 2rem 2rem;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    margin: 2rem auto;
+    max-width: 900px;
+    box-shadow: 0 0 15px rgba(102,204,255,0.2);
+}
+
+.description-footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.description-footer p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin: 0 auto;
+}
+
+/* Material calculator box centered and wider */
+.material-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#mat-inputs {
+    flex: 1;
+    min-width: unset;
+    width: auto;
+}
+
+#mat-results {
+    flex: 1;
+    min-width: unset;
+    width: auto;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .material-layout {
+        flex-direction: column;
+    }
+
+    #mat-inputs, #mat-results {
+        flex: none;
+        width: 100%;
+    }
 }
