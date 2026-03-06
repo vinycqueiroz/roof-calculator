@@ -1,24 +1,42 @@
 /* General Styles */
 body {
-    font-family: Metropolis;
-    background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+    font-family: Nunito, sans-serif;
+    background: linear-gradient(180deg, #222222, #2a2a2a, #333333);
     background-size: 400% 400%;
     animation: gradientShift 8s ease infinite, fadeIn 0.40s ease forwards;
     color: white;
     text-align: center;
     margin: 0;
-    padding: 15px;
+    padding: 0;
     padding-top: 85px; /* offset for fixed navbar height */
     opacity: 0;
 }
 
 /* Main Container */
 .container {
-    max-width: 70%;
-    margin: auto;
-    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 0;
     opacity: 0;
     animation: fadeIn 0.40s ease forwards 0.40s;
+}
+
+.container > h2,
+.container > .totals-box,
+.container > .material-layout {
+    max-width: 700px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.container > #structures {
+    max-width: 1100px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
 }
 
 /* Input Fields */
@@ -35,8 +53,8 @@ input {
 
 input:focus {
     outline: none;
-    border-color: #66ccff;
-    box-shadow: 0 0 8px #66ccff;
+    border-color: #aaaaaa;
+    box-shadow: 0 0 8px rgba(255,255,255,0.3);
     transition: all 0.3s ease;
     transform: scale(1.02);
 }
@@ -47,6 +65,12 @@ input:focus {
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 20px;
+}
+
+#structures .structure {
+    width: calc(33.33% - 20px);
+    max-width: none;
+    min-width: 200px;
 }
 
 /* Structure Box */
@@ -134,8 +158,22 @@ button:hover {
     }
 
     .container {
+        width: 100%;
+        padding: 20px 0;
+    }
+
+    .container > h2,
+    .container > .totals-box,
+    .container > .material-layout {
         max-width: 95%;
-        padding: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .container > #structures {
+        width: calc(100% - 70px) !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
     }
 
     #structures {
@@ -152,6 +190,30 @@ button:hover {
         width: 100%;
         margin-top: 10px;
     }
+    #calculator {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #calculator > h2 {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #structures,
+    .totals-box {
+        width: calc(100% - 70px) !important;
+        max-width: calc(100% - 20px) !important;
+        box-sizing: border-box;
+    }
+
+    #structures .structure {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box;
+    }
+
 
     .totals-box {
         width: 100%;
@@ -193,6 +255,20 @@ input {
     }
 }
 
+#material-section {
+    background: #3a3a3a;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 0;
+}
+
+#calculator {
+    background: #333333;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 0;
+}
+
 #calculator > h2, #material-section > h2 {
     font-size: 2.2rem;
     font-weight: 800;
@@ -206,7 +282,7 @@ input {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #0f2027;
+    background: #1c1c1c;
     padding: 1rem 2rem;
     position: fixed;
     top: 0;
@@ -219,12 +295,12 @@ input {
 .logo {
     font-size: 1.6rem;
     font-weight: 800;
-    color: #66ccff;
+    color: #ffffff;
     text-align: left;
     text-decoration: none;
-    text-shadow: 0 0 10px rgba(102,204,255,0.7),
-                 0 0 20px rgba(102,204,255,0.5),
-                 0 0 30px rgba(102,204,255,0.3);
+    text-shadow: 0 0 10px rgba(220,220,220,0.6),
+                 0 0 20px rgba(220,220,220,0.3),
+                 0 0 30px rgba(220,220,220,0.15);
 }
 
 .nav-links {
@@ -240,15 +316,15 @@ input {
     color: white;
     font-weight: 700;
     font-size: 1.3rem;
-    transition: color 0.3s ease;
+    transition: color 0.4s ease, text-shadow 0.4s ease;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: #66ccff;
-    text-shadow: 0 0 10px rgba(102,204,255,0.7),
-                 0 0 20px rgba(102,204,255,0.5),
-                 0 0 30px rgba(102,204,255,0.3);
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(220,220,220,0.6),
+                 0 0 20px rgba(220,220,220,0.3),
+                 0 0 30px rgba(220,220,220,0.15);
 }
 
 html {
@@ -265,18 +341,18 @@ html {
     margin: 2rem auto;
     margin-bottom: 1rem;
     max-width: 900px;
-    box-shadow: 0 0 15px rgba(102,204,255,0.2);
+    box-shadow: 0 0 15px rgba(255,255,255,0.05);
 }
 
 .intro h1 {
     font-size: 3rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    color: #66ccff;
+    color: #ffffff;
     font-weight: 800;
-    text-shadow: 0 0 10px rgba(102,204,255,0.7),
-                 0 0 20px rgba(102,204,255,0.5),
-                 0 0 30px rgba(102,204,255,0.3);
+    text-shadow: 0 0 10px rgba(220,220,220,0.5),
+                 0 0 20px rgba(220,220,220,0.3),
+                 0 0 30px rgba(220,220,220,0.1);
 }
 
 .intro p {
@@ -299,7 +375,7 @@ html {
     text-align: center;
     margin: 2rem auto;
     max-width: 900px;
-    box-shadow: 0 0 15px rgba(102,204,255,0.2);
+    box-shadow: 0 0 15px rgba(255,255,255,0.05);
 }
 
 .about-content {
@@ -309,13 +385,13 @@ html {
 }
 
 .about-content h1 {
-    color: #66ccff;
+    color: #ffffff;
     margin-bottom: 1rem;
     margin-top: 1rem;
     font-size: 3rem;
-    text-shadow: 0 0 10px rgba(102,204,255,0.7),
-                 0 0 20px rgba(102,204,255,0.5),
-                 0 0 30px rgba(102,204,255,0.3);
+    text-shadow: 0 0 10px rgba(220,220,220,0.5),
+                 0 0 20px rgba(220,220,220,0.3),
+                 0 0 30px rgba(220,220,220,0.1);
 }
 
 .about-content p {
@@ -369,7 +445,7 @@ html {
         top: 62px;
         left: 0;
         width: 100%;
-        background: #0f2027;
+        background: #1c1c1c;
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
         flex-direction: column;
         align-items: center;
@@ -406,7 +482,7 @@ html {
     border-radius: 12px;
     margin: 2rem auto;
     max-width: 900px;
-    box-shadow: 0 0 15px rgba(102,204,255,0.2);
+    box-shadow: 0 0 15px rgba(255,255,255,0.05);
 }
 
 .description-footer-content {
@@ -425,8 +501,6 @@ html {
     display: flex;
     gap: 20px;
     align-items: flex-start;
-    max-width: 800px;
-    margin: 0 auto;
 }
 
 #mat-inputs {
