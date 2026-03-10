@@ -3,7 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Roofing 101 — a fast, accurate roofing calculator for contractors, roofers, and DIY homeowners. Calculate roof area, squares, and full material lists in seconds." />
+  <meta name="keywords" content="roofing calculator, roof area calculator, roofing materials, roof squares, contractor tool" />
+  <meta name="author" content="Vinicius Queiroz" />
+  <meta property="og:title" content="Roofing 101" />
+  <meta property="og:description" content="Calculate roof area and materials fast. Built by roofers, for roofers." />
+  <meta property="og:type" content="website" />
   <title>Roofing 101</title>
+  <link rel="icon" type="image/png" href="favicon4.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet" />
@@ -14,7 +21,10 @@
   <!-- Navigation -->
   <header>
     <nav class="navbar">
-      <a href="index.html" class="logo">Roofing 101</a>
+      <a href="index.html" class="logo">
+        <img src="roof-logo.png" alt="Roofing 101 Logo" class="nav-logo" />
+        Roofing 101
+      </a>
       <div class="menu-toggle" id="mobile-menu">
   <span></span>
   <span></span>
@@ -307,6 +317,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     generateMaterialList();
 
+    // Build email to avoid bot scraping
+    const u = "vinycqueiroz";
+    const d = "gmail.com";
+    const link = document.getElementById("footer-email-link");
+    if (link) link.href = "mailto:" + u + "@" + d;
+
     const menu = document.getElementById("mobile-menu");
     const navLinks = document.querySelector(".nav-links");
     const links = document.querySelectorAll(".nav-links a");
@@ -339,5 +355,18 @@ document.addEventListener("DOMContentLoaded", function () {
       </p>
     </div>
   </section>
+  <footer class="site-footer">
+    <p class="footer-tagline">Built by roofers, for roofers.</p>
+    <p class="footer-email"><a id="footer-email-link" href="#">vinycqueiroz@gmail.com</a></p>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/viny_cqueiroz/" target="_blank" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.31.975.975 1.247 2.242 1.31 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.31 3.608-.975.975-2.242 1.247-3.608 1.31-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.31-.975-.975-1.247-2.242-1.31-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.31-3.608.975-.975 2.242-1.247 3.608-1.31 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-1.528.07-3.036.384-4.209 1.557C1.671 2.802 1.357 4.31 1.287 5.838 1.229 7.118 1.215 7.526 1.215 12c0 4.474.014 4.882.072 6.162.07 1.528.384 3.036 1.557 4.209 1.173 1.173 2.681 1.487 4.209 1.557 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.528-.07 3.036-.384 4.209-1.557 1.173-1.173 1.487-2.681 1.557-4.209.058-1.28.072-1.688.072-6.162 0-4.474-.014-4.882-.072-6.162-.07-1.528-.384-3.036-1.557-4.209C19.983.456 18.475.142 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/vinicius.queiroz.71619" target="_blank" aria-label="Facebook">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.03 4.388 11.031 10.125 11.927v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.928-1.956 1.879v2.276h3.328l-.532 3.49h-2.796v8.437C19.612 23.104 24 18.103 24 12.073z"/></svg>
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2025 Roofing 101. All rights reserved.</p>
+  </footer>
 </body>
 </html>
