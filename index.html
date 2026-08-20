@@ -18,6 +18,26 @@
 </head>
 <body>
 <body id="top">
+
+  <!-- Saved Jobs Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <div class="jobs-drawer" id="jobsDrawer">
+    <h3>Saved Jobs</h3>
+    <div class="jobs-list" id="jobsList"></div>
+  </div>
+  <button class="jobs-toggle-btn" id="jobsToggleBtn">SAVED JOBS</button>
+
+  <!-- Save Job Modal -->
+  <div class="modal-overlay" id="saveModal">
+    <div class="modal-box">
+      <h3>Name This Job</h3>
+      <input type="text" id="jobNameInput" placeholder="e.g. Smith Residence" maxlength="40" />
+      <div class="modal-buttons">
+        <button onclick="cancelSave()">Cancel</button>
+        <button onclick="confirmSave()">Save</button>
+      </div>
+    </div>
+  </div>
   <!-- Navigation -->
   <header>
     <nav class="navbar">
@@ -50,6 +70,9 @@
         <label>Eaves (LF):
           <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-eaves" oninput="generateMaterialList()" />
         </label>
+        <label>Rakes (LF):
+          <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-rakes" oninput="generateMaterialList()" />
+        </label>
         <label>Valleys (LF):
           <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-valleys" oninput="generateMaterialList()" />
         </label>
@@ -59,15 +82,15 @@
         <label>Ridges (LF):
           <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-ridges" oninput="generateMaterialList()" />
         </label>
-        <label>Rakes (LF):
-          <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-rakes" oninput="generateMaterialList()" />
-        </label>
         <label>Flashing (LF):
           <input type="number" inputmode="numeric" pattern="[0-9]*" id="mat-flashing" oninput="generateMaterialList()" />
         </label>
       </div>
-      <div class="structure" id="mat-results">
-        <div id="materialList" class="result"></div>
+      <div class="material-results-column">
+        <div class="structure" id="mat-results">
+          <div id="materialList" class="result"></div>
+        </div>
+        <button class="save-job-btn" onclick="openSaveModal()">Save Job</button>
       </div>
     </div>
   </div>
@@ -314,8 +337,125 @@
     }
   </script>
   <script>
+    // ---------------- SAVED JOBS ----------------
+    function getSavedJobs() {
+      try { return JSON.parse(localStorage.getItem('roofing101_jobs') || '[]'); }
+      catch { return []; }
+    }
+
+    function saveJobs(jobs) {
+      localStorage.setItem('roofing101_jobs', JSON.stringify(jobs));
+    }
+
+    function openSaveModal() {
+      document.getElementById('jobNameInput').value = '';
+      document.getElementById('saveModal').classList.add('active');
+      setTimeout(() => document.getElementById('jobNameInput').focus(), 100);
+    }
+
+    function cancelSave() {
+      document.getElementById('saveModal').classList.remove('active');
+    }
+
+    function confirmSave() {
+      const name = document.getElementById('jobNameInput').value.trim();
+      if (!name) { document.getElementById('jobNameInput').focus(); return; }
+
+      const job = {
+        id: Date.now(),
+        name,
+        date: new Date().toLocaleDateString(),
+        inputs: {
+          squares: document.getElementById('mat-squares').value,
+          eaves:   document.getElementById('mat-eaves').value,
+          valleys: document.getElementById('mat-valleys').value,
+          hips:    document.getElementById('mat-hips').value,
+          ridges:  document.getElementById('mat-ridges').value,
+          rakes:   document.getElementById('mat-rakes').value,
+          flashing:document.getElementById('mat-flashing').value,
+        }
+      };
+
+      const jobs = getSavedJobs();
+      jobs.unshift(job);
+      saveJobs(jobs);
+      renderJobsList();
+      cancelSave();
+
+      // Open drawer to show saved job
+      openDrawer();
+    }
+
+    function loadJob(job) {
+      document.getElementById('mat-squares').value  = job.inputs.squares  || '';
+      document.getElementById('mat-eaves').value    = job.inputs.eaves    || '';
+      document.getElementById('mat-valleys').value  = job.inputs.valleys  || '';
+      document.getElementById('mat-hips').value     = job.inputs.hips     || '';
+      document.getElementById('mat-ridges').value   = job.inputs.ridges   || '';
+      document.getElementById('mat-rakes').value    = job.inputs.rakes    || '';
+      document.getElementById('mat-flashing').value = job.inputs.flashing || '';
+      generateMaterialList();
+      closeDrawer();
+      document.getElementById('material-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function deleteJob(id, e) {
+      e.stopPropagation();
+      const jobs = getSavedJobs().filter(j => j.id !== id);
+      saveJobs(jobs);
+      renderJobsList();
+    }
+
+    function renderJobsList() {
+      const jobs = getSavedJobs();
+      const list = document.getElementById('jobsList');
+      if (jobs.length === 0) {
+        list.innerHTML = '<p class="jobs-empty">No saved jobs yet.<br>Fill in the calculator and hit "Save Job".</p>';
+        return;
+      }
+      list.innerHTML = jobs.map(job => `
+        <div class="job-card" onclick="loadJob(${JSON.stringify(job).replace(/"/g, '&quot;')})">
+          <button class="job-delete" onclick="deleteJob(${job.id}, event)" title="Delete">✕</button>
+          <div class="job-name">${job.name}</div>
+          <div class="job-meta">${job.date} &nbsp;·&nbsp; ${job.inputs.squares || 0} sq</div>
+        </div>
+      `).join('');
+    }
+
+    function openDrawer() {
+      document.getElementById('jobsDrawer').classList.add('open');
+      document.getElementById('jobsToggleBtn').classList.add('open');
+      document.getElementById('drawerOverlay').classList.add('active');
+    }
+
+    function closeDrawer() {
+      document.getElementById('jobsDrawer').classList.remove('open');
+      document.getElementById('jobsToggleBtn').classList.remove('open');
+      document.getElementById('drawerOverlay').classList.remove('active');
+    }
+
+    // Allow pressing Enter to save
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && document.getElementById('saveModal').classList.contains('active')) {
+        confirmSave();
+      }
+      if (e.key === 'Escape') {
+        cancelSave();
+        closeDrawer();
+      }
+    });
+  </script>
+  <script>
 document.addEventListener("DOMContentLoaded", function () {
     generateMaterialList();
+    renderJobsList();
+
+    // Drawer toggle
+    document.getElementById('jobsToggleBtn').addEventListener('click', function() {
+      const isOpen = document.getElementById('jobsDrawer').classList.contains('open');
+      isOpen ? closeDrawer() : openDrawer();
+    });
+    document.getElementById('drawerOverlay').addEventListener('click', closeDrawer);
 
     // Build email to avoid bot scraping
     const u = "vinycqueiroz";
