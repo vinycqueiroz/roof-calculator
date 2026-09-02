@@ -222,16 +222,16 @@
       const combinedEavesRakes = eaves + rakes;
       const combinedHipsRidges = hips + ridges;
 
-      const iceWaterLF = (eaves) * 2 + rakes + hips + ridges + valleys;
+      const iceWaterLF = (eaves) * 2 + valleys;
       const iceWaterRolls = Math.ceil(iceWaterLF / units.iceWaterRollLength);
       const iceWaterSquaresCovered = iceWaterRolls * units.iceWaterSquaresPerRoll;
 
       const remainingSquares = Math.max(0, squares - iceWaterSquaresCovered);
       const feltPaperRolls = Math.ceil(remainingSquares / units.feltSquaresPerRoll);
 
-      // Plywood Seam Tape calculation: 48LF per square
+      // Plywood Seam Tape: only installed where felt paper goes (30 LF per square)
       const plyTapeRollLength = units.plywoodSeamTapeLFPerRoll;
-      const totalTapeLF = squares * 48;
+      const totalTapeLF = remainingSquares * 30;
       const plywoodSeamTapeRolls = Math.ceil(totalTapeLF / plyTapeRollLength);
 
       const shinglesQty = Math.ceil(squares * units.shinglesPerSquare);
